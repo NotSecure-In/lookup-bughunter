@@ -1,3 +1,28 @@
+// Function to display the visitor's IP address
+function displayVisitorIP(ip) {
+  const visitorIPElement = document.getElementById('visitorIP');
+  visitorIPElement.textContent = ip;
+}
+
+// Function to get the visitor's real IP address
+async function getVisitorIP() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error('Failed to retrieve the visitor\'s IP address:', error);
+    return 'Unknown';
+  }
+}
+
+// Log visit when the page is loaded
+getVisitorIP().then((visitorIP) => {
+  displayVisitorIP(visitorIP);
+  logVisit();
+});
+// manually added to github by adrianalvird 
+
 // Function to add a log entry
 function addLogEntry(log) {
   const logsContainer = document.getElementById('logs');
@@ -72,7 +97,7 @@ function getRandomStatusCode() {
 // Logging the visit
 function logVisit() {
   getVisitorIP().then((visitorIP) => {
-    const log = `Status Code: ${getRandomStatusCode()} | Timestamp: ${new Date().toLocaleString()} | Sender IP: ${visitorIP} | Referrer IP: ${getReferrerIP()}`;
+    const log = `Directory: ${directory} | Status Code: ${getRandomStatusCode()} | Timestamp: ${new Date().toLocaleString()} | Sender IP: ${visitorIP} | Referrer IP: ${getReferrerIP()}`;
     addLogEntry(log);
   });
 }
